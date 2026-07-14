@@ -1,0 +1,5 @@
+shelter_name,location,capacity_people,accepts,status
+Hope Shelter,Andheri,50,cooked;packaged,open
+Seva Food Bank,Bandra,200,packaged;raw,open
+Night Refuge,Dadar,30,cooked,open
+Annapurna Trust,Andheri,100,cooked;packaged;bakery,closed

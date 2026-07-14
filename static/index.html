@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍲 Food Rescue Agent</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; background: #f6f7f4; color: #222; }
+  h1 { font-size: 1.5rem; }
+  form { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  label { display: block; margin-top: 12px; font-weight: 600; font-size: .9rem; }
+  input, textarea { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+  button { margin-top: 16px; padding: 10px 20px; background: #2e7d32; color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+  button:hover { background: #1b5e20; }
+  #result { margin-top: 20px; padding: 16px; border-radius: 12px; display: none; }
+  .ok { background: #e8f5e9; border: 1px solid #a5d6a7; }
+  .bad { background: #ffebee; border: 1px solid #ef9a9a; }
+</style>
+</head>
+<body>
+<h1>🍲 Food Rescue Agent</h1>
+<p>Report surplus food and get matched with a nearby shelter.</p>
+<form id="donateForm">
+  <label>Restaurant name <input name="restaurant" required></label>
+  <label>Location <input name="location" placeholder="e.g. Andheri" required></label>
+  <label>Food description <textarea name="food_description" rows="3" placeholder="e.g. 20 boxes of cooked biryani, made 1 hour ago" required></textarea></label>
+  <label>Quantity <input name="quantity" placeholder="e.g. feeds 50 people" required></label>
+  <button type="submit">Submit donation</button>
+</form>
+<div id="result"></div>
+<script>
+document.getElementById("donateForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  const res = await fetch("/donate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  const out = await res.json();
+  const box = document.getElementById("result");
+  const rejected = out.urgency === "rejected";
+  box.className = rejected ? "bad" : "ok";
+  box.style.display = "block";
+  box.innerHTML = rejected
+    ? `<b>❌ Donation rejected</b><br>${out.reasoning}`
+    : `<b>✅ Matched!</b><br>Urgency: <b>${out.urgency}</b><br>Shelter: <b>${out.assigned_shelter}</b><br><small>${out.reasoning}</small>`;
+});
+</script>
+</body>
+</html>
