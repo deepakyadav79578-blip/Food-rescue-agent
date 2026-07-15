@@ -1,4 +1,7 @@
 # 🍲 Food Rescue Agent
+## 🌐 Live Demo
+
+https://food-rescue-agent.onrender.com
 
 An agentic AI system (LangGraph + Groq + FastAPI) that connects restaurants with
 surplus food to nearby shelters and food banks — before the food becomes unusable.
@@ -27,7 +30,7 @@ donation → safety_gate → router ──► critical  ──┐
 ## Run locally
 
 ```bash
-git clone https://github.com/<your-username>/food-rescue-agent.git
+git clone https://github.com/deepakyadav79578-blip/Food-rescue-agent.git
 cd food-rescue-agent
 
 python -m venv venv
